@@ -1,3 +1,16 @@
+def load_checkpoint(filepath):
+    checkpoint = torch.load(filepath)
+    model = models.densenet121(pretrained=True)
+    model.classifier = checkpoint['classifier']
+    model.load_state_dict(checkpoint['state_dict'])
+    model.class_to_idx = checkpoint['class_to_idx']
+    
+    return model
+    
+model = load_checkpoint('checkpoint.pth')
+print(model)
+
+
 def process_image(image):
     ''' Scales, crops, and normalizes a PIL image for a PyTorch model,
         returns an Numpy array
